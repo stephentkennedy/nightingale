@@ -7,6 +7,9 @@ var poemArray = [];
 var wordIndex = 0;
 var wordArray = [];
 var screen = document.getElementById("poem");
+var secondScreen = "";
+var thirdScreen = "";
+var writingScreen = "";
 var letterBool = false;
 var spaceBool = true;
 var opacityInterval = 0;
@@ -25,13 +28,22 @@ var cloudsOp = 0;
 var loaded = 0;
 var loadOp = 0;
 
-function begin(pluggedPoem, trueScreen)
+function begin(numScreens, pluggedPoem, trueScreen, second, third)
 {
 	if(pluggedPoem != undefined)
 	{
 		poem = pluggedPoem;
 		screen = document.getElementById(trueScreen);
+		if (numScreens > 1)
+		{
+			secondScreen = document.getElementById(second);
+			if (numScreens > 2)
+			{
+				thirdScreen = document.getElementById(third)
+			}
+		}
 	}
+	writingScreen = screen;
 	if (loadOp > 0)
 	{
 		loadOp = loadOp - .01;
@@ -125,13 +137,28 @@ function readPoem()
 	}
 	else if (read == "~clear~")
 	{
-		screen.innerHTML = "";
+		writingScreen.innerHTML = "";
 		write = false;
 	}
 	else if (read == "~stop~")
 	{
 		write = false;
 		clearInterval(go);
+	}
+	else if (read == "~first~")
+	{
+		write = false;
+		writingScreen = screen;
+	}
+	else if (read == "~second~")
+	{
+		write = false;
+		writingScreen = secondScreen;
+	}
+	else if (read == "~third~")
+	{
+		write = false;
+		writingScreen = thirdScreen;
 	}
 	if (write == true)
 	{
@@ -155,23 +182,23 @@ function writeScreen()
 {
 	if (letterBool == true && wordIndex <= wordArray.length - 1)
 	{
-		screen.innerHTML += wordArray[wordIndex];
+		writingScreen.innerHTML += wordArray[wordIndex];
 		wordIndex = wordIndex + 1;
 	}
 	else if (letterBool == true && wordIndex > wordArray.length - 1)
 	{
-		screen.innerHTML += " ";
+		writingScreen.innerHTML += " ";
 		poemIndex = poemIndex + 1;
 		readPoem();
 	}
 	else if (letterBool == false && spaceBool == false && poemIndex <= poemArray.length - 1)
 	{
-		screen.innerHTML += poemArray[poemIndex];
+		writingScreen.innerHTML += poemArray[poemIndex];
 		poemIndex = poemIndex + 1;
 	}
 	else if (letterBool == false && spaceBool == true && poemIndex <= poemArray.length - 1)
 	{
-		screen.innerHTML += poemArray[poemIndex] + " ";
+		writingScreen.innerHTML += poemArray[poemIndex] + " ";
 		poemIndex = poemIndex + 1;
 	}
 	else if (poemIndex > poemArray.length - 1)
