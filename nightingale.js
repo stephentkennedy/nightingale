@@ -25,8 +25,13 @@ var cloudsOp = 0;
 var loaded = 0;
 var loadOp = 0;
 
-function begin()
+function begin(pluggedPoem, trueScreen)
 {
+	if(pluggedPoem != undefined)
+	{
+		poem = pluggedPoem;
+		screen = document.getElementById(trueScreen);
+	}
 	if (loadOp > 0)
 	{
 		loadOp = loadOp - .01;
